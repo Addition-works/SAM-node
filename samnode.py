@@ -28,6 +28,9 @@ import folder_paths
 print("Imported SAM node")
 print("Folder paths models: ", folder_paths.models_dir)
 
+def denormalize(tensor):
+    return tensor * 0.5 + 0.5  # Scale back from [-1, 1] to [0, 1]
+
 class SamNode:
     @classmethod
     def INPUT_TYPES(cls):
@@ -96,9 +99,12 @@ class SamNode:
             input_image_age = torch.stack(input_image_age)
             result_tensor = SamNode.run_on_batch(input_image_age, net)[0]
 
-            # reshape
+            # Reshape
             result_tensor = result_tensor.unsqueeze(0)
             result_tensor = result_tensor.permute(0, 2, 3, 1)
+
+            # Denormalize the tensor to convert back to [0, 1] range
+            result_tensor_denorm = denormalize(result_tensor)
             #result_image = tensor2im(result_tensor)
             #result_image = Image.fromarray(result_image)
             os.remove(f'{imgid}.jpg')
