@@ -29,26 +29,7 @@ print("Imported SAM node")
 print("Folder paths models: ", folder_paths.models_dir)
 
 
-def tensor2tensor(var):
-    # Move to CPU and detach from computation graph
-    var = var.cpu().detach()
 
-    # Transpose the tensor from [C, H, W] to [H, W, C] if needed
-    var = var.permute(1, 2, 0)
-
-    # Scale the tensor from [-1, 1] to [0, 1]
-    var = (var + 1) / 2
-
-    # Clamp values to ensure they are within [0, 1] range
-    var = torch.clamp(var, 0, 1)
-
-    # Convert the values to the range [0, 255] for image-like output, if needed
-    var = var * 255
-
-    # Convert the tensor to an integer type
-    var = var.type(torch.uint8)
-
-    return var  # This is the processed tensor
 
 
 class SamNode:
@@ -120,9 +101,10 @@ class SamNode:
                 input_image_age = [age_transformer(input_image.cpu()).to('cuda')]
                 input_image_age = torch.stack(input_image_age)
                 result_tensor = SamNode.run_on_batch(input_image_age, net)[0]
-                result_tensor = tensor2tensor(result_tensor)
-                result_tensor = result_tensor.unsqueeze(0)         
-                print(result_tensor.size())
+                result_image = tensor2im(result_tensor)
+                # convert that pil image to tensor
+                result_tensor = transforms.ToTensor()(result_image)
+                result_tensor = result_tensor.unsqueeze(0)
                 os.remove(f'{imgid}.jpg')
         return (result_tensor,)
 
