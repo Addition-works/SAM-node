@@ -123,7 +123,6 @@ class SamNode:
                 result_tensor = tensor2tensor(result_tensor)
                 result_tensor = result_tensor.permute(2, 0, 1)
                 result_tensor = result_tensor.unsqueeze(0)
-                
                 os.remove(f'{imgid}.jpg')
         return (result_tensor,)
 
