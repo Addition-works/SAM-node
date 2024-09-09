@@ -105,6 +105,7 @@ class SamNode:
                 # convert that pil image to tensor
                 result_tensor = transforms.ToTensor()(result_image)
                 result_tensor = result_tensor.unsqueeze(0)
+                result_tensor = result_tensor.permute(0, 3, 1, 2)
                 print(result_tensor.size())
                 os.remove(f'{imgid}.jpg')
         return (result_tensor,)
