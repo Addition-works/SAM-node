@@ -76,8 +76,10 @@ class SamNode:
         net.cuda()
         print('SAM model successfully loaded!')
         
-        image_in_squeezed = image_in.squeeze(0)
+        image_in_permuted = image_in.permute(0, 3, 1, 2)  # Change from [B, H, W, C] to [B, C, H, W]
+        image_in_squeezed = image_in_permuted.squeeze(0)  # Now squeeze the batch size
         original_image = transforms.ToPILImage()(image_in_squeezed).convert("RGB")
+
         # save image
 
         imgid = str(uuid.uuid4())
