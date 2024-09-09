@@ -1,7 +1,7 @@
 import sys
 sys.path.append('./SAM')
 sys.path.append('./')
-
+sys.path.append('./SAM/configs')
 
 from argparse import Namespace
 import os
