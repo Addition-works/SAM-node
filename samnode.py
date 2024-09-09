@@ -22,6 +22,7 @@ import numpy as np
 from PIL import Image
 import torch
 import torchvision.transforms as transforms
+import folder_paths
 
 class SamNode:
     @classmethod
@@ -39,7 +40,8 @@ class SamNode:
     def run_alignment(image_path):
         import dlib
         from SAM.scripts.align_all_parallel import align_face
-        predictor = dlib.shape_predictor("../models/SAM/shape_predictor_68_face_landmarks.dat")
+        model_path = folder_paths.get_full_path("SAM", "shape_predictor_68_face_landmarks.dat")
+        predictor = dlib.shape_predictor(model_path)
         aligned_image = align_face(filepath=image_path, predictor=predictor)
         print("Aligned image has shape: {}".format(aligned_image.size))
         return aligned_image
@@ -50,9 +52,9 @@ class SamNode:
         return result_batch
 
     def age(self, image_in):
-        
+        model_path = folder_paths.get_full_path("SAM", "sam_ffhq_aging.pt")
         EXPERIMENT_ARGS = {            
-            "model_path": "../models/SAM/sam_ffhq_aging.pt",            
+            "model_path": model_path,            
             "transform": transforms.Compose([
                 transforms.Resize((256, 256)),
                 transforms.ToTensor(),
