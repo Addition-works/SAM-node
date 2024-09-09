@@ -28,8 +28,20 @@ import folder_paths
 print("Imported SAM node")
 print("Folder paths models: ", folder_paths.models_dir)
 
-def denormalize(tensor):
-    return tensor * 0.5 + 0.5  # Scale back from [-1, 1] to [0, 1]
+def tensor2im(image_tensor):
+    # Clamp the tensor to be in range [0, 1] after denormalization
+    image_tensor = image_tensor * 0.5 + 0.5  # Reverse the normalization to [0, 1]
+    
+    # Convert to NumPy array and ensure it's in range [0, 255]
+    image_array = image_tensor.detach().cpu().numpy()
+    image_array = np.clip(image_array, 0, 1)  # Ensure all values are between 0 and 1
+    image_array = (image_array * 255).astype(np.uint8)  # Scale to [0, 255]
+
+    # Change from [C, H, W] to [H, W, C] (channels last for image display)
+    image_array = np.transpose(image_array, (1, 2, 0))
+    
+    return image_array
+
 
 class SamNode:
     @classmethod
@@ -81,7 +93,7 @@ class SamNode:
         
         image_in_permuted = image_in.permute(0, 3, 1, 2)  # Change from [B, H, W, C] to [B, C, H, W]
         image_in_squeezed = image_in_permuted.squeeze(0)  # Now squeeze the batch size
-        original_image = transforms.ToPILImage()(image_in_squeezed).convert("RGB")
+        original_image = transforms.ToPILImage()(image_in_squeezed)
 
         # save image
 
@@ -99,14 +111,18 @@ class SamNode:
             input_image_age = torch.stack(input_image_age)
             result_tensor = SamNode.run_on_batch(input_image_age, net)[0]
 
-            # Reshape
-            result_tensor = result_tensor.unsqueeze(0)
-            result_tensor = result_tensor.permute(0, 2, 3, 1)
+            result_tensor = result_tensor.squeeze(0)  # Remove batch dimension
+            result_tensor = result_tensor.permute(1, 2, 0)  # Convert from [C, H, W] to [H, W, C]
 
-            # Denormalize the tensor to convert back to [0, 1] range
-            result_tensor_denorm = denormalize(result_tensor)
-            #result_image = tensor2im(result_tensor)
-            #result_image = Image.fromarray(result_image)
+            # Print min/max values to verify range
+            print(f"Result Tensor Min: {result_tensor.min()}, Max: {result_tensor.max()}")
+
+            # Convert tensor to image
+            result_image = tensor2im(result_tensor)
+
+            # Concatenate and display the results
+            results = np.array(aligned_image.resize((1024, 1024)))
+            results = np.concatenate([results, result_image], axis=1)
             os.remove(f'{imgid}.jpg')
 
         return (result_tensor,)
