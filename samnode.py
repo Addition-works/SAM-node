@@ -56,7 +56,7 @@ class SamNode:
         return result_batch
 
     def age(self, image_in):
-        model_path = os.path.join(folder_paths.models_dir, "SAM/psp_ffhq_age.pth")
+        model_path = os.path.join(folder_paths.models_dir, "SAM/sam_ffhq_aging.pt")
         print("Aging model path: ", model_path)
         EXPERIMENT_ARGS = {            
             "model_path": model_path,            
