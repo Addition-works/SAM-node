@@ -104,28 +104,18 @@ class SamNode:
         aligned_image.resize((256, 256))
         img_transforms = EXPERIMENT_ARGS['transform']
         input_image = img_transforms(aligned_image)
-        target_age = 70
-        age_transformer = AgeTransformer(target_age)
-        with torch.no_grad():
-            input_image_age = [age_transformer(input_image.cpu()).to('cuda')]
-            input_image_age = torch.stack(input_image_age)
-            result_tensor = SamNode.run_on_batch(input_image_age, net)[0]
-
-            result_tensor = result_tensor.squeeze(0)  # Remove batch dimension
-            result_tensor = result_tensor.permute(1, 2, 0)  # Convert from [C, H, W] to [H, W, C]
-
-            # Print min/max values to verify range
-            print(f"Result Tensor Min: {result_tensor.min()}, Max: {result_tensor.max()}")
-
-            # Convert tensor to image
-            result_image = tensor2im(result_tensor)
-
-            # Concatenate and display the results
-            results = np.array(aligned_image.resize((1024, 1024)))
-            results = np.concatenate([results, result_image], axis=1)
-            os.remove(f'{imgid}.jpg')
-
-        return (result_tensor,)
+        target_ages = [70]
+        age_transformers = [AgeTransformer(target_age=age) for age in target_ages]        
+        for age_transformer in age_transformers:
+            print(f"Running on target age: {age_transformer.target_age}")
+            with torch.no_grad():
+                input_image_age = [age_transformer(input_image.cpu()).to('cuda')]
+                input_image_age = torch.stack(input_image_age)
+                result_tensor = SamNode.run_on_batch(input_image_age, net)[0]
+                result_image = tensor2im(result_tensor)
+                
+                os.remove(f'{imgid}.jpg')
+        return (result_image,)
 
 
 if __name__ == "__main__":
