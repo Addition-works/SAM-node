@@ -1,3 +1,8 @@
+import sys
+sys.path.append('./SAM')
+sys.path.append('./')
+
+
 from argparse import Namespace
 import os
 import sys
@@ -9,7 +14,6 @@ import torchvision.transforms as transforms
 from SAM.datasets.augmentations import AgeTransformer
 from SAM.utils.common import tensor2im
 from SAM.models.psp import pSp
-
 
 class SamNode:
     @classmethod
