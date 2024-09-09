@@ -75,9 +75,9 @@ class SamNode:
         net.eval()
         net.cuda()
         print('SAM model successfully loaded!')
-        print(type(image_in))
-        print(image_in.size())
-        original_image = transforms.ToPILImage()(image_in).convert("RGB")
+        
+        image_in_squeezed = image_in.squeeze(0)
+        original_image = transforms.ToPILImage()(image_in_squeezed).convert("RGB")
         # save image
 
         imgid = str(uuid.uuid4())
