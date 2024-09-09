@@ -1,7 +1,18 @@
 import sys
+
+# Add the SAM and configs directories to the Python path
 sys.path.append('./SAM')
-sys.path.append('./')
-sys.path.append('./SAM/configs')
+sys.path.append('./SAM/configs')  # Add this to access the configs module
+sys.path.append('./')  # Add the root directory
+
+# Print the path to verify
+print(sys.path)
+
+# Your imports
+from .SAM.models.psp import pSp
+from .SAM.datasets.augmentations import AgeTransformer
+from .SAM.utils.common import tensor2im
+
 
 from argparse import Namespace
 import os
@@ -11,9 +22,6 @@ import numpy as np
 from PIL import Image
 import torch
 import torchvision.transforms as transforms
-from .SAM.datasets.augmentations import AgeTransformer
-from .SAM.utils.common import tensor2im
-from .SAM.models.psp import pSp
 
 class SamNode:
     @classmethod
