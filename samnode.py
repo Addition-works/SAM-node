@@ -106,7 +106,7 @@ class SamNode:
                 result_tensor = transforms.ToTensor()(result_image)
                 result_tensor = result_tensor.unsqueeze(0)
                 print(result_tensor.size())
-                result_tensor = result_tensor.permute(0, 3, 1, 2)
+                result_tensor = result_tensor.permute(0, 2, 3, 1)
                 print(result_tensor.size())
                 os.remove(f'{imgid}.jpg')
         return (result_tensor,)
