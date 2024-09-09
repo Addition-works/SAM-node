@@ -120,7 +120,8 @@ class SamNode:
                 input_image_age = [age_transformer(input_image.cpu()).to('cuda')]
                 input_image_age = torch.stack(input_image_age)
                 result_tensor = SamNode.run_on_batch(input_image_age, net)[0]
-                result_tensor = tensor2tensor(result_tensor)                
+                result_tensor = tensor2tensor(result_tensor)
+                result_tensor = result_tensor.unqueeze(0)         
                 print(result_tensor.size())
                 os.remove(f'{imgid}.jpg')
         return (result_tensor,)
