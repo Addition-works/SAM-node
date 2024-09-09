@@ -121,6 +121,9 @@ class SamNode:
                 input_image_age = torch.stack(input_image_age)
                 result_tensor = SamNode.run_on_batch(input_image_age, net)[0]
                 result_tensor = tensor2tensor(result_tensor)
+                # resize and permute tensor
+                result_tensor = result_tensor.unsqueeze(0)
+                result_tensor = result_tensor.permute(0, 2, 3, 1)
                 
                 os.remove(f'{imgid}.jpg')
         return (result_tensor,)
