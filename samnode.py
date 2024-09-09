@@ -95,6 +95,10 @@ class SamNode:
             input_image_age = [age_transformer(input_image.cpu()).to('cuda')]
             input_image_age = torch.stack(input_image_age)
             result_tensor = SamNode.run_on_batch(input_image_age, net)[0]
+
+            # reshape
+            result_tensor = result_tensor.unsqueeze(0)
+            result_tensor = result_tensor.permute(0, 2, 3, 1)
             #result_image = tensor2im(result_tensor)
             #result_image = Image.fromarray(result_image)
             os.remove(f'{imgid}.jpg')
