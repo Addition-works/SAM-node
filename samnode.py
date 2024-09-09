@@ -26,7 +26,7 @@ import folder_paths
 
 print("Imported SAM node")
 print("Folder paths models: ", folder_paths.models_dir)
-print("Folder paths SAM: ", folder_paths.get_full_path("SAM"))
+print("Folder paths SAM: ", folder_paths.get_filename_list("SAM"))
 
 class SamNode:
     @classmethod
@@ -45,6 +45,7 @@ class SamNode:
         import dlib
         from SAM.scripts.align_all_parallel import align_face
         model_path = folder_paths.get_full_path("SAM", "shape_predictor_68_face_landmarks.dat")
+        print("Alignment model path: ", model_path)
         predictor = dlib.shape_predictor(model_path)
         aligned_image = align_face(filepath=image_path, predictor=predictor)
         print("Aligned image has shape: {}".format(aligned_image.size))
@@ -57,6 +58,7 @@ class SamNode:
 
     def age(self, image_in):
         model_path = folder_paths.get_full_path("SAM", "sam_ffhq_aging.pt")
+        print("Aging model path: ", model_path)
         EXPERIMENT_ARGS = {            
             "model_path": model_path,            
             "transform": transforms.Compose([
