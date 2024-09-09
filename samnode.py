@@ -1,13 +1,3 @@
-import sys
-
-# Add the SAM and configs directories to the Python path
-sys.path.append('./SAM')
-sys.path.append('./SAM/configs')  # Add this to access the configs module
-sys.path.append('./')  # Add the root directory
-
-# Print the path to verify
-print(sys.path)
-
 # Your imports
 from .SAM.models.psp import pSp
 from .SAM.datasets.augmentations import AgeTransformer
