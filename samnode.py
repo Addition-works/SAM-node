@@ -3,8 +3,9 @@ import sys
 import os
 
 # Add SAM to the Python path
-sys.path.append(os.path.abspath('./SAM'))  # Ensure SAM is available
-sys.path.append(os.path.abspath('./'))     # Ensure the current directory is available
+sys.path.append(os.path.abspath('/workspace/ComfyUI/custom_nodes/SAM-node/SAM'))  # Path to SAM
+sys.path.append(os.path.abspath('/workspace/ComfyUI/custom_nodes/SAM-node'))     # Path to custom node root
+
 
 # Optional: print sys.path to verify
 print(sys.path)
