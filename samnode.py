@@ -1,7 +1,16 @@
 # Your imports
-from .SAM.models.psp import pSp
-from .SAM.datasets.augmentations import AgeTransformer
-from .SAM.utils.common import tensor2im
+import sys
+import os
+
+# Add SAM to the Python path
+sys.path.append(os.path.abspath('./SAM'))  # Ensure SAM is available
+sys.path.append(os.path.abspath('./'))     # Ensure the current directory is available
+
+# Optional: print sys.path to verify
+print(sys.path)
+from SAM.models.psp import pSp
+from SAM.datasets.augmentations import AgeTransformer
+from SAM.utils.common import tensor2im
 
 
 from argparse import Namespace
