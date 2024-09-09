@@ -76,7 +76,7 @@ class SamNode:
         net.cuda()
         print('SAM model successfully loaded!')
         print(type(image_in))
-        print(image_in.size)
+        print(image_in.size())
         original_image = transforms.ToPILImage()(image_in).convert("RGB")
         # save image
 
