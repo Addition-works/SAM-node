@@ -11,9 +11,9 @@ import numpy as np
 from PIL import Image
 import torch
 import torchvision.transforms as transforms
-from SAM.datasets.augmentations import AgeTransformer
-from SAM.utils.common import tensor2im
-from SAM.models.psp import pSp
+from .SAM.datasets.augmentations import AgeTransformer
+from .SAM.utils.common import tensor2im
+from .SAM.models.psp import pSp
 
 class SamNode:
     @classmethod
