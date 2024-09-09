@@ -1,6 +1,7 @@
 # Your imports
 import sys
 import os
+import uuid
 
 # Add SAM to the Python path
 sys.path.append(os.path.abspath('/workspace/ComfyUI/custom_nodes/SAM-node/SAM'))  # Path to SAM
@@ -74,9 +75,14 @@ class SamNode:
         net.eval()
         net.cuda()
         print('SAM model successfully loaded!')
-        original_image = Image.open(image_in).convert("RGB")
+        
+        original_image = transforms.ToPILImage()(input_image).convert("RGB")
+        # save image
+
+        imgid = str(uuid.uuid4())
+        original_image.save(f'{imgid}.jpg')
         original_image.resize((256, 256))
-        aligned_image = SamNode.run_alignment(image_in)
+        aligned_image = SamNode.run_alignment(f'{imgid}.jpg')
         aligned_image.resize((256, 256))
         img_transforms = EXPERIMENT_ARGS['transform']
         input_image = img_transforms(aligned_image)
@@ -88,6 +94,7 @@ class SamNode:
             result_tensor = SamNode.run_on_batch(input_image_age, net)[0]
             result_image = tensor2im(result_tensor)
             result_image = Image.fromarray(result_image)
+            os.remove(f'{imgid}.jpg')
 
         return (result_image,)
 
