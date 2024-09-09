@@ -28,20 +28,6 @@ import folder_paths
 print("Imported SAM node")
 print("Folder paths models: ", folder_paths.models_dir)
 
-def tensor2im(image_tensor):
-    # Clamp the tensor to be in range [0, 1] after denormalization
-    image_tensor = image_tensor * 0.5 + 0.5  # Reverse the normalization to [0, 1]
-    
-    # Convert to NumPy array and ensure it's in range [0, 255]
-    image_array = image_tensor.detach().cpu().numpy()
-    image_array = np.clip(image_array, 0, 1)  # Ensure all values are between 0 and 1
-    image_array = (image_array * 255).astype(np.uint8)  # Scale to [0, 255]
-
-    # Change from [C, H, W] to [H, W, C] (channels last for image display)
-    image_array = np.transpose(image_array, (1, 2, 0))
-    
-    return image_array
-
 
 class SamNode:
     @classmethod
