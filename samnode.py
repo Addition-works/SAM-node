@@ -24,6 +24,10 @@ import torch
 import torchvision.transforms as transforms
 import folder_paths
 
+print("Imported SAM node")
+print("Folder paths models: ", folder_paths.models_dir)
+print("Folder paths SAM: ", folder_paths.get_full_path("SAM"))
+
 class SamNode:
     @classmethod
     def INPUT_TYPES(cls):
