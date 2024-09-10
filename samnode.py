@@ -9,8 +9,8 @@ sampath = os.path.join(folder_paths.base_path, 'custom_nodes/SAM-node/SAM')
 nodepath = os.path.join(folder_paths.base_path, 'custom_nodes/SAM-node')
 print('sampath: ', sampath)
 print('nodepath: ', nodepath)
-sys.path.append(os.path.abspath('/workspace/ComfyUI/custom_nodes/SAM-node/SAM'))  # Path to SAM
-sys.path.append(os.path.abspath('/workspace/ComfyUI/custom_nodes/SAM-node'))     # Path to custom node root
+sys.path.append(os.path.abspath(sampath))  # Path to SAM
+sys.path.append(os.path.abspath(nodepath))     # Path to custom node root
 
 
 # Optional: print sys.path to verify
