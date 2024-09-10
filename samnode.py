@@ -2,11 +2,11 @@
 import sys
 import os
 import uuid
-
+import folder_paths
 # Add SAM to the Python path
-sys.path.append(os.path.abspath('/workspace/ComfyUI/custom_nodes/SAM-node/SAM'))  # Path to SAM
-sys.path.append(os.path.abspath('/workspace/ComfyUI/custom_nodes/SAM-node'))     # Path to custom node root
 
+sys.path.append(os.path.abspath(os.path.join(folder_paths.base_path, 'custom_nodes/customSAM-node/SAM')))  # Path to SAM
+sys.path.append(os.path.abspath(os.path.join(folder_paths.base_path, 'custom_nodes/customSAM-node/SAM/SAM-node')))  # Path to SAM models
 
 # Optional: print sys.path to verify
 print(sys.path)
@@ -23,7 +23,7 @@ import numpy as np
 from PIL import Image
 import torch
 import torchvision.transforms as transforms
-import folder_paths
+
 
 print("Imported SAM node")
 print("Folder paths models: ", folder_paths.models_dir)
