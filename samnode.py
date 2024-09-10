@@ -4,9 +4,10 @@ import os
 import uuid
 import folder_paths
 # Add SAM to the Python path
+print('folder_paths.base_dir: ', folder_paths.base_dir)
+sys.path.append(os.path.abspath('/workspace/ComfyUI/custom_nodes/SAM-node/SAM'))  # Path to SAM
+sys.path.append(os.path.abspath('/workspace/ComfyUI/custom_nodes/SAM-node'))     # Path to custom node root
 
-sys.path.append(os.path.abspath(os.path.join(folder_paths.base_path, 'custom_nodes/customSAM-node/SAM')))  # Path to SAM
-sys.path.append(os.path.abspath(os.path.join(folder_paths.base_path, 'custom_nodes/customSAM-node/SAM/SAM-node')))  # Path to SAM models
 
 # Optional: print sys.path to verify
 print(sys.path)
