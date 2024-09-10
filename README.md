@@ -4,6 +4,7 @@
 2. `pip install -r requirements.txt`
 3. Download the models indicated below and place them in the `models/SAM` directory.
 
+There is an example workflow in `sam_workflow.json`
 
 # Only a Matter of Style: Age Transformation Using a Style-Based Regression Model (SIGGRAPH 2021)
 
