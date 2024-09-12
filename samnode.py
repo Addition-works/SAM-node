@@ -107,7 +107,7 @@ class SamNode:
                 result_tensor = result_tensor.permute(0, 2, 3, 1)
                 print(result_tensor.size())
                 
-        return (result_tensor,)
+        return (result_tensor,aligned_resized_image,)
 
 
 if __name__ == "__main__":
