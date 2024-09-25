@@ -43,7 +43,7 @@ class SamNode:
     
     @staticmethod
     def run_on_batch(inputs, net):
-        return net(inputs.to("cuda").float(), randomize_noise=False, resize=False)
+        return net(inputs.to("cuda").float(), randomize_noise=True, resize=False)
 
     def age(self, image_in, target_age):
         model_path = os.path.join(folder_paths.models_dir, "SAM/sam_ffhq_aging.pt")
